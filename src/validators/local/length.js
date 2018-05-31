@@ -1,17 +1,21 @@
 import ClientSideValidations from '../../ClientSideValidations'
 
-ClientSideValidations.validators.local.length = function (element, options) {
-  let blankOptions, check, fn, message, operator, tokenizedLength, tokenizer
-
-  const CHECKS = {
-    is: '==',
-    minimum: '>=',
-    maximum: '<='
+const LENGTH_CHECKS = {
+  is: (a, b) => {
+    return (a === b)
+  },
+  minimum: (a, b) => {
+    return (a >= b)
+  },
+  maximum: (a, b) => {
+    return (a <= b)
   }
+}
 
-  tokenizer = options.js_tokenizer || "split('')"
+ClientSideValidations.validators.local.length = function (element, options) {
+  let blankOptions, check, message, length
 
-  tokenizedLength = new Function('element', 'return (element.val().' + tokenizer + " || '').length")(element) // eslint-disable-line no-new-func
+  length = element.val().length
 
   blankOptions = {}
   blankOptions.message = options.is ? options.messages.is : options.minimum ? options.messages.minimum : void 0
@@ -25,15 +29,12 @@ ClientSideValidations.validators.local.length = function (element, options) {
     return message
   }
 
-  for (check in CHECKS) {
+  for (check in LENGTH_CHECKS) {
     if (!options[check]) {
       continue
     }
 
-    operator = CHECKS[check]
-    fn = new Function('return ' + tokenizedLength + ' ' + operator + ' ' + options[check]) // eslint-disable-line no-new-func
-
-    if (!fn()) {
+    if (!LENGTH_CHECKS[check](length, parseInt(options[check]))) {
       return options.messages[check]
     }
   }

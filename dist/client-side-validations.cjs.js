@@ -289,22 +289,30 @@ ClientSideValidations.validators.local.format = function (element, options) {
   }
 };
 
+var NUMERICALITY_CHECKS = {
+  greater_than: function greater_than(a, b) {
+    return a > b;
+  },
+  greater_than_or_equal_to: function greater_than_or_equal_to(a, b) {
+    return a >= b;
+  },
+  equal_to: function equal_to(a, b) {
+    return a === b;
+  },
+  less_than: function less_than(a, b) {
+    return a < b;
+  },
+  less_than_or_equal_to: function less_than_or_equal_to(a, b) {
+    return a <= b;
+  }
+};
+
 ClientSideValidations.validators.local.numericality = function (element, options) {
   var $form = void 0,
       check = void 0,
       checkValue = void 0,
-      fn = void 0,
       numberFormat = void 0,
-      operator = void 0,
       val = void 0;
-
-  var CHECKS = {
-    greater_than: '>',
-    greater_than_or_equal_to: '>=',
-    equal_to: '==',
-    less_than: '<',
-    less_than_or_equal_to: '<='
-  };
 
   if (options.allow_blank === true && this.presence(element, {
     message: options.messages.numericality
@@ -324,7 +332,7 @@ ClientSideValidations.validators.local.numericality = function (element, options
     return options.messages.numericality;
   }
 
-  for (check in CHECKS) {
+  for (check in NUMERICALITY_CHECKS) {
     if (options[check] == null) {
       continue;
     }
@@ -335,10 +343,7 @@ ClientSideValidations.validators.local.numericality = function (element, options
       return;
     }
 
-    operator = CHECKS[check];
-    fn = new Function('return ' + val + ' ' + operator + ' ' + checkValue); // eslint-disable-line no-new-func
-
-    if (!fn()) {
+    if (!NUMERICALITY_CHECKS[check](parseFloat(val), parseFloat(checkValue))) {
       return options.messages[check];
     }
   }
@@ -352,24 +357,25 @@ ClientSideValidations.validators.local.numericality = function (element, options
   }
 };
 
+var LENGTH_CHECKS = {
+  is: function is(a, b) {
+    return a === b;
+  },
+  minimum: function minimum(a, b) {
+    return a >= b;
+  },
+  maximum: function maximum(a, b) {
+    return a <= b;
+  }
+};
+
 ClientSideValidations.validators.local.length = function (element, options) {
   var blankOptions = void 0,
       check = void 0,
-      fn = void 0,
       message = void 0,
-      operator = void 0,
-      tokenizedLength = void 0,
-      tokenizer = void 0;
+      length = void 0;
 
-  var CHECKS = {
-    is: '==',
-    minimum: '>=',
-    maximum: '<='
-  };
-
-  tokenizer = options.js_tokenizer || "split('')";
-
-  tokenizedLength = new Function('element', 'return (element.val().' + tokenizer + " || '').length")(element); // eslint-disable-line no-new-func
+  length = element.val().length;
 
   blankOptions = {};
   blankOptions.message = options.is ? options.messages.is : options.minimum ? options.messages.minimum : void 0;
@@ -383,15 +389,12 @@ ClientSideValidations.validators.local.length = function (element, options) {
     return message;
   }
 
-  for (check in CHECKS) {
+  for (check in LENGTH_CHECKS) {
     if (!options[check]) {
       continue;
     }
 
-    operator = CHECKS[check];
-    fn = new Function('return ' + tokenizedLength + ' ' + operator + ' ' + options[check]); // eslint-disable-line no-new-func
-
-    if (!fn()) {
+    if (!LENGTH_CHECKS[check](length, parseInt(options[check]))) {
       return options.messages[check];
     }
   }

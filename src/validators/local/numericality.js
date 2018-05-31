@@ -1,16 +1,26 @@
 import $ from 'jquery'
 import ClientSideValidations from '../../ClientSideValidations'
 
-ClientSideValidations.validators.local.numericality = function (element, options) {
-  let $form, check, checkValue, fn, numberFormat, operator, val
-
-  const CHECKS = {
-    greater_than: '>',
-    greater_than_or_equal_to: '>=',
-    equal_to: '==',
-    less_than: '<',
-    less_than_or_equal_to: '<='
+const NUMERICALITY_CHECKS = {
+  greater_than: (a, b) => {
+    return (a > b)
+  },
+  greater_than_or_equal_to: (a, b) => {
+    return (a >= b)
+  },
+  equal_to: (a, b) => {
+    return (a === b)
+  },
+  less_than: (a, b) => {
+    return (a < b)
+  },
+  less_than_or_equal_to: (a, b) => {
+    return (a <= b)
   }
+}
+
+ClientSideValidations.validators.local.numericality = function (element, options) {
+  let $form, check, checkValue, numberFormat, val
 
   if (options.allow_blank === true && this.presence(element, {
     message: options.messages.numericality
@@ -30,7 +40,7 @@ ClientSideValidations.validators.local.numericality = function (element, options
     return options.messages.numericality
   }
 
-  for (check in CHECKS) {
+  for (check in NUMERICALITY_CHECKS) {
     if (options[check] == null) {
       continue
     }
@@ -41,10 +51,7 @@ ClientSideValidations.validators.local.numericality = function (element, options
       return
     }
 
-    operator = CHECKS[check]
-    fn = new Function('return ' + val + ' ' + operator + ' ' + checkValue) // eslint-disable-line no-new-func
-
-    if (!fn()) {
+    if (!NUMERICALITY_CHECKS[check](parseFloat(val), parseFloat(checkValue))) {
       return options.messages[check]
     }
   }
