@@ -16,7 +16,7 @@ ClientSideValidations.validators.local.inclusion = function (element, options) {
   if (options['in']) {
     const results = []
 
-    for (let i in options['in']) {
+    for (const i in options['in']) {
       results.push(options['in'][i].toString())
     }
 

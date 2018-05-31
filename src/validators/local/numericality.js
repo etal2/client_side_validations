@@ -20,7 +20,7 @@ const NUMERICALITY_CHECKS = {
 }
 
 ClientSideValidations.validators.local.numericality = function (element, options) {
-  let $form, check, checkValue, numberFormat, val
+  let $form, checkValue, numberFormat, val
 
   if (options.allow_blank === true && this.presence(element, {
     message: options.messages.numericality
@@ -40,7 +40,7 @@ ClientSideValidations.validators.local.numericality = function (element, options
     return options.messages.numericality
   }
 
-  for (check in NUMERICALITY_CHECKS) {
+  for (const check in NUMERICALITY_CHECKS) {
     if (options[check] == null) {
       continue
     }

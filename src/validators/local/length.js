@@ -13,7 +13,7 @@ const LENGTH_CHECKS = {
 }
 
 ClientSideValidations.validators.local.length = function (element, options) {
-  let blankOptions, check, message, length
+  let blankOptions, message, length
 
   length = element.val().length
 
@@ -29,7 +29,7 @@ ClientSideValidations.validators.local.length = function (element, options) {
     return message
   }
 
-  for (check in LENGTH_CHECKS) {
+  for (const check in LENGTH_CHECKS) {
     if (!options[check]) {
       continue
     }

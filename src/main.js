@@ -125,7 +125,7 @@ validateElement = (element, validators) => {
 
     valid = true
 
-    for (let validator in validators) {
+    for (const validator in validators) {
       fn = context[validator]
 
       if (!fn) {
@@ -134,7 +134,7 @@ validateElement = (element, validators) => {
 
       ref = validators[validator]
 
-      for (let i in ref) {
+      for (const i in ref) {
         let message = fn.call(context, element, ref[i])
 
         if (message) {
