@@ -16,7 +16,7 @@ const ClientSideValidations = {
     }
   },
   enablers: {
-    form: function (form) {
+    form: (form) => {
       let $form, binding, event, ref
       $form = $(form)
       form.ClientSideValidations = {
@@ -193,7 +193,7 @@ const ClientSideValidations = {
       })
     }
   },
-  reset: function (form) {
+  reset: (form) => {
     let $form, key
     $form = $(form)
     ClientSideValidations.disable(form)
