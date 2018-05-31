@@ -87,6 +87,7 @@ validateForm = (form, validators) => {
     if (!$(this).isValid(validators)) {
       valid = false
     }
+
     return true
   })
 
@@ -120,27 +121,33 @@ validateElement = (element, validators) => {
   }
 
   executeValidators = (context) => {
-    let fn, i, kind, len, ref, valid, validator
+    let fn, ref, valid
 
     valid = true
-    for (kind in context) {
-      fn = context[kind]
-      if (validators[kind]) {
-        ref = validators[kind]
-        for (i = 0, len = ref.length; i < len; i++) {
-          validator = ref[i]
 
-          let message = fn.call(context, element, validator)
-          if (message) {
-            valid = failElement(message)
-            break
-          }
-        }
-        if (!valid) {
+    for (let validator in validators) {
+      fn = context[validator]
+
+      if (!fn) {
+        continue
+      }
+
+      ref = validators[validator]
+
+      for (let i in ref) {
+        let message = fn.call(context, element, ref[i])
+
+        if (message) {
+          valid = failElement(message)
           break
         }
       }
+
+      if (!valid) {
+        break
+      }
     }
+
     return valid
   }
 

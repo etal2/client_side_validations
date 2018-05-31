@@ -598,6 +598,7 @@ validateForm = function validateForm(form, validators) {
     if (!$(this).isValid(validators)) {
       valid = false;
     }
+
     return true;
   });
 
@@ -636,32 +637,34 @@ validateElement = function validateElement(element, validators) {
 
   executeValidators = function executeValidators(context) {
     var fn = void 0,
-        i = void 0,
-        kind = void 0,
-        len = void 0,
         ref = void 0,
-        valid = void 0,
-        validator = void 0;
+        valid = void 0;
 
     valid = true;
-    for (kind in context) {
-      fn = context[kind];
-      if (validators[kind]) {
-        ref = validators[kind];
-        for (i = 0, len = ref.length; i < len; i++) {
-          validator = ref[i];
 
-          var message = fn.call(context, element, validator);
-          if (message) {
-            valid = failElement(message);
-            break;
-          }
-        }
-        if (!valid) {
+    for (var validator in validators) {
+      fn = context[validator];
+
+      if (!fn) {
+        continue;
+      }
+
+      ref = validators[validator];
+
+      for (var i in ref) {
+        var message = fn.call(context, element, ref[i]);
+
+        if (message) {
+          valid = failElement(message);
           break;
         }
       }
+
+      if (!valid) {
+        break;
+      }
     }
+
     return valid;
   };
 
