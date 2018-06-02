@@ -35,6 +35,9 @@
     "standard": "^11.0.1"
   },
   "dependencies": {},
+  "sideEffects": [
+    "dist/*.js"
+  ],
   "peerDependencies": {
     "jquery": ">= 1.12.4 < 4.0.0"
   },
