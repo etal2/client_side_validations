@@ -48,7 +48,7 @@
   },
   "browserslist": [
     ">= 1%",
-    "IE >= 8"
+    "IE >= 9"
   ],
   "files": [
     "dist"
