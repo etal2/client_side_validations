@@ -15,11 +15,11 @@ end
 module ActionViewTestSetup
   include ::ClientSideValidations::ActionView::Helpers::FormHelper
 
-  def form_for(*)
+  def form_for(*, **)
     @output_buffer = super
   end
 
-  def form_with(*)
+  def form_with(*, **)
     @output_buffer = super
   end
 
@@ -98,9 +98,9 @@ module ActionViewTestSetup
     @format_thing = FormatThing.new
 
     if defined?(ActionView::OutputFlow)
-      @view_flow        = ActionView::OutputFlow.new
+      @view_flow = ActionView::OutputFlow.new
     else
-      @_content_for     = Hash.new { |h, k| h[k] = ActiveSupport::SafeBuffer.new }
+      @_content_for = Hash.new { |h, k| h[k] = ActiveSupport::SafeBuffer.new }
     end
   end
 

@@ -38,7 +38,7 @@ module ClientSideValidations
         when Hash
           case force[attr]
           when Hash
-             [*validator.options[:on]].include? force[attr][:on]
+            [*validator.options[:on]].include? force[attr][:on]
           else
             false
           end
@@ -57,7 +57,7 @@ module ClientSideValidations
         result = can_force_validator?(attr, validator, force)
         result &&= run_conditionals(validator.options[:if], :if) if validator.options[:if]
         result &&= run_conditionals(validator.options[:unless], :unless) if validator.options[:unless]
-        
+
         result
       end
 
@@ -96,16 +96,20 @@ module ClientSideValidations
           when TrueClass
             true
           when Hash
-            if force[attr].key?(:on) && !force[attr].key?(validator.kind)
-              true
-            else
-              force[attr][validator.kind]
-            end
+            can_force_validator_hash?(force[attr], validator.kind)
           else
             false
           end
         else
           false
+        end
+      end
+
+      def can_force_validator_hash?(force_hash, kind)
+        if force_hash.key?(:on) && !force_hash.key?(kind)
+          true
+        else
+          force_hash[kind]
         end
       end
     end

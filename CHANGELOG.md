@@ -1,5 +1,38 @@
 # Changelog
 
+## 16.1.0 / 2019-12-25
+
+* [FEATURE] Ruby 2.7 support
+* [ENHANCEMENT] Update development dependencies
+* [BUGFIX] Re-release of 16.0.4 because of wrong version number
+
+## 16.0.4 / 2019-12-25
+
+* [FEATURE] Ruby 2.7 support
+* [ENHANCEMENT] Update development dependencies
+
+## 16.0.3 / 2019-10-06
+
+* [BUGFIX] Fix `validators.all` function
+* [ENHANCEMENT] Update development dependencies
+
+## 16.0.2 / 2019-09-21
+
+* [BUGFIX] Guard against prototype extended arrays ([#769](https://github.com/DavyJonesLocker/client_side_validations/pull/769))
+* [ENHANCEMENT] Test against latest Ruby versions
+* [ENHANCEMENT] Update development dependencies
+
+## 16.0.1 / 2019-08-24
+
+* [BUGFIX] Fix default export (JS)
+
+## 16.0.0 / 2019-08-23
+
+* [FEATURE] Move to ES6
+* [FEATURE] Add Webpacker compatibility
+* [BUGFIX] Fix acceptance validator
+* [ENHANCEMENT] Update development dependencies
+
 ## 15.0.0 / 2019-05-14
 
 * [FEATURE] Drop Ruby 2.2 support
@@ -163,6 +196,7 @@
 ## 6.0.0 / 2017-01-20
 
 * [FEATURE] Rails 5.0 compatibility
+* [FEATURE] Drop Rails 4.x support
 
 ## 4.2.12 / 2017-01-19
 

@@ -1,14 +1,20 @@
-require: rubocop-performance
+require:
+  - rubocop-performance
+  - rubocop-rails
 
 AllCops:
   TargetRailsVersion: 5.0
   TargetRubyVersion: 2.3
   Exclude:
+    - 'node_modules/**/*'
     - 'vendor/bundle/**/*'
 
-Layout/AlignHash:
+Layout/HashAlignment:
   EnforcedColonStyle: table
   EnforcedHashRocketStyle: table
+
+Layout/LineLength:
+  Enabled: false
 
 Metrics/AbcSize:
   Max: 18.36
@@ -26,9 +32,6 @@ Metrics/CyclomaticComplexity:
   Exclude:
     - 'test/**/*'
 
-Metrics/LineLength:
-  Enabled: false
-
 Metrics/MethodLength:
   Max: 18
   Exclude:
@@ -45,12 +48,12 @@ Metrics/PerceivedComplexity:
   Exclude:
     - 'test/**/*'
 
-Rails:
-  Enabled: true
-
 Rails/ApplicationRecord:
   Exclude:
-    - 'test/active_record/models/*'
+    - 'test/**/*'
+
+Rails/RakeEnvironment:
+  Enabled: false
 
 Style/ClassVars:
   Enabled: false
@@ -62,10 +65,14 @@ Style/FormatStringToken:
   Exclude:
     - 'test/**/*'
 
-# TODO: Remove when targeting Ruby 2.3 because it is already enabled.
-Style/FrozenStringLiteralComment:
+Style/HashEachMethods:
   Enabled: true
-  EnforcedStyle: always
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 Style/IfUnlessModifier:
   Enabled: false

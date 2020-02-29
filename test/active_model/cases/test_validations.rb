@@ -275,8 +275,8 @@ module ActiveModel
 
     def test_custom_validation_context_empty
       person = new_person do |p|
-        p.validates_presence_of :first_name, on: :my_custom_context
-        p.validates_presence_of :last_name
+        p.validates :first_name, presence: { on: :my_custom_context }
+        p.validates :last_name, presence: {}
       end
 
       expected_hash = {
@@ -292,12 +292,16 @@ module ActiveModel
 
     def test_with_custom_validation_context
       person = new_person do |p|
-        p.validates_presence_of :first_name, on: :my_custom_context
-        p.validates_presence_of :last_name
+        p.validates :first_name, presence: { on: :my_custom_context }, length: { is: 5 }
+        p.validates :last_name, presence: true
       end
 
       expected_hash = {
         first_name: {
+          length:   [{
+            messages: { is: 'is the wrong length (should be 5 characters)' },
+            is:       5
+          }],
           presence: [{
             message: "can't be blank"
           }]
